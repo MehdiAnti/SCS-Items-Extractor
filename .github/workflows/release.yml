@@ -1,0 +1,70 @@
+name: Build and Release
+
+on:
+  push:
+    tags:
+      - "v*"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        shell: pwsh
+        run: |
+          python -m pip install --upgrade pip
+          pip install pyinstaller colorama
+
+      - name: Build application
+        shell: pwsh
+        run: |
+          pyinstaller `
+            --noconfirm `
+            --clean `
+            --onedir `
+            --name "SCS-Items-Extractor" `
+            main.py
+
+      - name: Copy data files
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory -Force "dist/SCS-Items-Extractor/data"
+          Copy-Item "data/converter_pix.exe" "dist/SCS-Items-Extractor/data/"
+          Copy-Item "data/scs_files.txt" "dist/SCS-Items-Extractor/data/"
+
+      - name: Create ZIP
+        shell: pwsh
+        run: |
+          $tag = "${{ github.ref_name }}"
+          Compress-Archive `
+            -Path "dist/SCS-Items-Extractor" `
+            -DestinationPath "SCS-Items-Extractor-$tag-Windows-x64.zip"
+
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: SCS-Items-Extractor-Windows-x64
+          path: "SCS-Items-Extractor-${{ github.ref_name }}-Windows-x64.zip"
+
+      - name: Upload to GitHub Release
+        if: startsWith(github.ref, 'refs/tags/')
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release upload "${{ github.ref_name }}" `
+            "SCS-Items-Extractor-${{ github.ref_name }}-Windows-x64.zip" `
+            --clobber
