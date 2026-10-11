@@ -63,6 +63,7 @@ load_scs_files()
 
 pattern_inventory = re.compile(r'^\s*steam_inventory_id\s*:', re.MULTILINE | re.IGNORECASE)
 pattern_academy = re.compile(r'^\s*academy_reward\s*:', re.MULTILINE | re.IGNORECASE)
+pattern_tourist_board = re.compile(r'^\s*tourist_board_reward\s*:', re.MULTILINE | re.IGNORECASE)
 
 def get_temp_cleanup_folder():
     temp_folder = os.path.join(os.getenv('TEMP'), 'scs_cleanup_temp')
@@ -108,7 +109,7 @@ def process_file(file_path, temp_folder):
                     try:
                         with open(full_path, 'r', encoding='utf-8', errors='ignore') as fh:
                             content = fh.read()
-                            if pattern_inventory.search(content) or pattern_academy.search(content):
+                            if pattern_inventory.search(content) or pattern_academy.search(content) or pattern_tourist_board.search(content):
                                 matched_files.append(full_path)
                     except Exception as e:
                         logging.warning(f"Failed to read {full_path}: {e}")
