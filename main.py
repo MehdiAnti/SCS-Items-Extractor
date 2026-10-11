@@ -78,14 +78,16 @@ def process_file(file_path, temp_folder):
                 '/def/desktop/',
                 '/def/vehicle/truck/',
                 '/def/vehicle/trailer_owned/',
-                '/def/vehicle/car/',
                 '/def/vehicle/addon_hookups/'
+            ]
+        elif re.match(r'^dlc_rt_', file_name, re.IGNORECASE):
+            arguments = [
+                '/def/vehicle/car/'
             ]
         else:
             arguments = [
                 '/def/vehicle/truck/',
                 '/def/vehicle/trailer_owned/',
-                '/def/vehicle/car/'
             ]
 
         for arg in arguments:
