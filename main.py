@@ -78,12 +78,14 @@ def process_file(file_path, temp_folder):
                 '/def/desktop/',
                 '/def/vehicle/truck/',
                 '/def/vehicle/trailer_owned/',
+                '/def/vehicle/car/',
                 '/def/vehicle/addon_hookups/'
             ]
         else:
             arguments = [
                 '/def/vehicle/truck/',
-                '/def/vehicle/trailer_owned/'
+                '/def/vehicle/trailer_owned/',
+                '/def/vehicle/car/'
             ]
 
         for arg in arguments:
