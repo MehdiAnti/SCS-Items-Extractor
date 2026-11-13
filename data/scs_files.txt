@@ -10,6 +10,7 @@ dlc_iveco_sway.scs
 dlc_volvo_fh_2021.scs
 dlc_volvo_fh_2024.scs
 dlc_daf_xf_electric.scs
+dlc_bus.scs
 dlc_wielton.scs
 dlc_tirsan.scs
 dlc_schwarzmuller.scs
