@@ -84,6 +84,10 @@ def process_file(file_path, temp_folder):
             arguments = [
                 '/def/vehicle/car/'
             ]
+        elif re.match(r'^dlc_bus', file_name, re.IGNORECASE):
+            arguments = [
+                '/def/vehicle/bus/'
+            ]
         else:
             arguments = [
                 '/def/vehicle/truck/',
